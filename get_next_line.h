@@ -1,7 +1,7 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include "libft.h"
+# include "includes/libft.h"
 
 # define BUFFER_SIZE	100
 # define INT_ERROR		-1

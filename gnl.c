@@ -2,16 +2,16 @@
 
 void readc(char *line, int s)
 {
-	int i = 0; 
+	int i = 0;
 	while (i < s)
 		ft_putchar(line[i++]);
-}
 
+}
 static int		check_eol(char *s, int len)
 {
-	int			i; 
+	int			i;
 
-	i = 0; 
+	i = 0;
 	while(i < len)
 		if(s[i++] == '\n')
 			return (--i);
@@ -21,7 +21,7 @@ static int		check_eol(char *s, int len)
 static int		set_next_line(t_gnl_data *db, char **line)
 {
 	int			n_buff;
-	int			i; 
+	int			i;
 
 	i = 0;
 	n_buff = check_eol(db->buff, db->len_buff);
@@ -49,7 +49,7 @@ static int		set_next_line(t_gnl_data *db, char **line)
 
 static int		read_file(t_gnl_data *db, char **line)
 {
-	int			n_buff; 
+	int			n_buff;
 	db->len_line = 0;
 	if(db->len_buff || (db->len_buff && check_eol(db->buff, db->len_buff) == NO_EOL))
 	    set_next_line(db, line);

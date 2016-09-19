@@ -23,7 +23,7 @@ static	int		set_line(t_stock *db, char **line)
 	while(len != db->read_return && i < db->read_return)
 		db->buff[i++] = 0;
 	over = (len != db->read_return) ? 1 : 0;
-	db->read_return -= (len + 1);
+	db->read_return = (len == db->read_return) ? 0 : db->read_return - len - 1;
 	return (over);
 }
 

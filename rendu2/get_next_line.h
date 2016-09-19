@@ -3,7 +3,7 @@
 
 # include "includes/libft.h"
 # include <fcntl.h>
-# define BUFFER_SIZE	100
+# define BUFFER_SIZE	10
 
 typedef	struct				s_stock
 {

@@ -9,10 +9,10 @@ static	int		set_line(t_stock *db, char **line)
 
 	i = 0;
 	over = 0;
-	len = (int)(ft_strchr((const char*)db->buff, '\n') - (char*)db->buff);
-	len = (len == 0) ? db->read_return : len;
+	len = (int)(ft_strchr((const char*)db->buff, '\n') - db->buff);
+	len = (len < 0) ? db->read_return : len;
 	len_line = (!*line) ? 0 : ft_strlen(*line);
-	if(!(ft_realloc((void**)line, len_line, len + 1)))
+	if(!(ft_realloc((void**)line, len_line, len + len_line + 1)))
 		return (-1);
 	ft_strncat(*line, (const char*)db->buff, len);
 	while(i + len + 1 < db->read_return)
@@ -23,7 +23,7 @@ static	int		set_line(t_stock *db, char **line)
 	while(len != db->read_return && i < db->read_return)
 		db->buff[i++] = 0;
 	over = (len != db->read_return) ? 1 : 0;
-	db->read_return -= (len);
+	db->read_return -= (len + 1);
 	return (over);
 }
 

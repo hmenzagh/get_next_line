@@ -4,7 +4,7 @@
 # include "libft.h"
 # include <fcntl.h>
 # define BUFF_SIZE 20
-# define MAX_FD 3
+# define MAX_FD 4
 # define IFD 0
 # define PRE_INC_SET -1
 # define RR 1

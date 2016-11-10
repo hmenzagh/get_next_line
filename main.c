@@ -6,7 +6,7 @@
 /*   By: hmenzagh <hmenzagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/09 23:55:25 by hmenzagh          #+#    #+#             */
-/*   Updated: 2016/11/10 12:54:28 by hmenzagh         ###   ########.fr       */
+/*   Updated: 2016/11/10 16:07:35 by hmenzagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int			main(int ac, char **av)
 {
-	int		fd[MAX_FD];
+	int		fd;
 	int		i;
 	char	*line;
 	int		count = 10000;
@@ -27,10 +27,8 @@ int			main(int ac, char **av)
 	{
 		while (++i < ac - 1)
 		{
-			//fd[i] = open(av[i + 1], O_RDONLY);
-			//ft_putnbr(fd[i - 1]);
-			fd[i] = i + 1;
-			while (get_next_line(fd[i], &line) && --count)
+			fd = i + 1;
+			while (get_next_line(fd, &line) && --count)
 			{
 				ft_putstr(line);
 				ft_putchar('\n');
@@ -40,6 +38,5 @@ int			main(int ac, char **av)
 	}
 	else
 		ft_putstr("T'es un debile !\n");
-
 	return (0);
 }

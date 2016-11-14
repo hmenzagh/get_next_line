@@ -6,7 +6,7 @@
 /*   By: hmenzagh <hmenzagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:44:22 by hmenzagh          #+#    #+#             */
-/*   Updated: 2016/11/06 13:10:23 by hmenzagh         ###   ########.fr       */
+/*   Updated: 2016/11/07 12:56:33 by hmenzagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,16 @@ int		ft_strequ(char const *s1, char const *s2)
 	int	i;
 
 	i = 0;
-	while (s1[i] && s2[i])
+	if (s1 && s2)
 	{
+		while (s1[i] && s2[i])
+		{
+			if (s1[i] != s2[i])
+				return (0);
+			++i;
+		}
 		if (s1[i] != s2[i])
 			return (0);
-		++i;
 	}
-	if (s1[i] != s2[i])
-		return (0);
 	return (1);
 }

@@ -6,81 +6,66 @@
 /*   By: hmenzagh <hmenzagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 21:16:36 by hmenzagh          #+#    #+#             */
-/*   Updated: 2016/11/11 11:07:22 by hmenzagh         ###   ########.fr       */
+/*   Updated: 2016/11/14 19:40:40 by hmenzagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "libft.h"
 
-void				cleanup(t_list **ptr)
+int				give_line(t_list *db, char **line)
 {
-	t_list			*save;
-	t_list			*prev;
+	int			len_b;
+	int			len_line;
+	char		*nl_pos;
+	int			status;
 
-	save = *ptr;
-	if (save->content->read_return <= 0)
+	status = CONTINUE;
+	if ((len_b = ft_strlen(db->LBF)))
 	{
-		free(save->content);
-		*ptr = save->next;
-		free(save);
+		nl_pos = ft_strchr(db->LBF, '\n');
+		status = (nl_pos) ? OVER : CONTINUE;
+		len_b = (nl_pos) ? nl_pos - (char*)db->LBF : len_b;
+		len_line = (*line) ? ft_strlen(*line) : 0;
+		if (!(ft_realloc((void**)line, len_line, len_line + len_b + 1)))
+				return (ERROR);
+		ft_memcpy((void*)*line + len_line, db->LBF, len_b);
+		ft_memcpy(db->LBF, db->LBF + len_b + 1, BUFF_SIZE - len_b);
+		ft_bzero(db->LBF + BUFF_SIZE - len_b, len_b);
 	}
 	else
 	{
-		while (save && save->content->read_return <= 0)
-		{
-			prev = save;
-			save = save->next;
-		}
-		if (save->content->read_return <= 0)
-		{
-			free(save->content);
-			prev->next = save->next;
-			free(save);
-		}
+		if((status = read(db->LFD, (char*)db->LBF, BUFF_SIZE)) < 0)
+			return (ERROR);
+		status = (status == 0) ? OVER : CONTINUE;
 	}
+	return ((status == OVER && *line) ? 1 : status);
 }
 
-int					contat_read(t_bag *db, char **line)
+int				get_next_line(int fd, char **line)
 {
-	if((db->read_return = read(db->fd, db->buff, BUFF_SIZE)) > 0)
-		db->buff[db->read_return] = '\0';
-	else if (db->read_return == ERROR)
-		return (ERROR);
-	else
-		return (OVER);
+	static t_list		*o_db;
+	t_list				*w_db;
+	int					res;
 
-	return (0);
-}
-
-int					prep_give_line(t_bag *db, char **line)
-{
+	w_db = o_db;
 	if (!line)
 		return (ERROR);
-	if (*line != NULL)
-		free(*line);
-	while (contact_read(db, line) == 0);
-}
-
-int					get_next_line(int const fd, char **line)
-{
-	static t_list	*ptr;
-	t_list			*wptr;
-	t_bag			*tmp;
-
-	wptr = prt;
-	if (wptr)
-		while (wptr && wptr->content->fd != fd)
-			wptr = wptr->next;
-	if (wptr->content->fd != fd)
+	*line = NULL;
+	while (w_db && w_db->LFD != fd)
+		w_db = w_db->next;
+	if (!w_db && (w_db = ft_memalloc(sizeof(t_list))))
+		ft_lstadd(&o_db, w_db);
+	if (w_db && w_db->LBF == NULL)
 	{
-		wptr = ptr;
-		if (!(tmp = malloc(sizeof(t_bag))))
-			return (ERROR);
-		ft_lstadd(wptr, ft_lstnew(tmp, sizeof(t_bag)));
-		ptr = wptr;
-		wptr->content->fd = fd;
+		w_db->LFD = fd;
+		w_db->LBF = ft_memalloc(BUFF_SIZE + 1);
 	}
-	cleanup(&ptr);
-	return (prep_give_line(wptr->content, line));
+	if (!w_db || !(w_db->content))
+		return (ERROR);
+	while ((res = give_line(w_db, line)) == CONTINUE)
+		;
+	if (res == OVER)
+		ft_lstfreeone(&o_db, w_db);
+	return ((res == OVER) ? 0 : res);
 }

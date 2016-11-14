@@ -6,12 +6,15 @@
 /*   By: hmenzagh <hmenzagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:42:43 by hmenzagh          #+#    #+#             */
-/*   Updated: 2016/11/05 16:42:44 by hmenzagh         ###   ########.fr       */
+/*   Updated: 2016/11/07 12:52:38 by hmenzagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 void	ft_striter(char *s, void (*f)(char*))
 {
-	while (*s != '\0')
-		f(s++);
+	if (s && (*f))
+	{
+		while (*s != '\0')
+			f(s++);
+	}
 }

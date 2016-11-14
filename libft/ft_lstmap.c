@@ -6,7 +6,7 @@
 /*   By: hmenzagh <hmenzagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:54:19 by hmenzagh          #+#    #+#             */
-/*   Updated: 2016/11/06 14:12:11 by hmenzagh         ###   ########.fr       */
+/*   Updated: 2016/11/07 12:46:03 by hmenzagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,27 @@
 
 t_list			*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
-	t_list		*ptr_start;
 	t_list		*ptr_actual;
-	t_list		*ptr_new;
+	t_list		*freturn;
+	t_list		*ptr_save;
 
+	ptr_save = NULL;
 	if (lst)
 	{
-		if (!(ptr_start = ft_lstnew(lst->content, lst->content_size)))
+		freturn = (*f)(lst);
+		if (!(ptr_save = ft_lstnew(freturn->content, freturn->content_size)))
 			return (NULL);
-		ptr_start = (*f)(ptr_start);
-		ptr_actual = ptr_start;
+		ptr_actual = ptr_save;
 		lst = lst->next;
+		while (lst)
+		{
+			freturn = (*f)(lst);
+			if (!(ptr_actual->next = ft_lstnew(freturn->content,
+												freturn->content_size)))
+				return (NULL);
+			ptr_actual = ptr_actual->next;
+			lst = lst->next;
+		}
 	}
-	while (lst)
-	{
-		if (!(ptr_new = ft_lstnew(lst->content, lst->content_size)))
-			return (NULL);
-		ptr_new = (*f)(ptr_actual);
-		ptr_actual->next = ptr_new;
-		ptr_actual = ptr_new;
-		lst = lst->next;
-	}
-	return (ptr_start);
+	return (ptr_save);
 }

@@ -1,40 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstfreeone.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmenzagh <hmenzagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/09 23:55:25 by hmenzagh          #+#    #+#             */
-/*   Updated: 2016/11/10 16:12:14 by hmenzagh         ###   ########.fr       */
+/*   Created: 2016/11/14 00:58:50 by hmenzagh          #+#    #+#             */
+/*   Updated: 2016/11/14 01:14:59 by hmenzagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
 #include "libft.h"
 
-int			main(int ac, char **av)
+int				ft_lstfreeone(t_list **o_ptr, t_list *d_ptr)
 {
-	int		fd[MAX_FD];
-	int		i;
-	char	*line;
+	t_list		*w_ptr;
 
-	i = -1;
-	if (ac >= 2)
+	w_ptr = *o_ptr;
+	if (!o_ptr || !*o_ptr || !d_ptr)
+		return (ERROR);
+	while (w_ptr->next != d_ptr && w_ptr != d_ptr)
+		w_ptr = w_ptr->next;
+	if (d_ptr == w_ptr)
 	{
-		while (++i < ac - 1)
-		{
-			fd = open(av[i + 1], O_RDONLY);
-			while (get_next_line(fd, &line) && --count)
-			{
-				ft_putstr(line);
-				ft_putchar('\n');
-			}
-			ft_putstr("\n [~~~~~ NEW_FD ~~~~~]\n\n");
-		}
+		*o_ptr = w_ptr->next;
+		free(w_ptr->content);
+		free(w_ptr);
 	}
 	else
-		ft_putstr("T'es un debile !\n");
-
-	return (0);
+	{
+		w_ptr->next = w_ptr->next->next;
+		free(d_ptr->content);
+		free(d_ptr);
+	}
+	return (1);
 }

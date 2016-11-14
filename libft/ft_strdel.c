@@ -6,7 +6,7 @@
 /*   By: hmenzagh <hmenzagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:41:20 by hmenzagh          #+#    #+#             */
-/*   Updated: 2016/11/06 15:14:18 by hmenzagh         ###   ########.fr       */
+/*   Updated: 2016/11/07 12:48:12 by hmenzagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 
 void		ft_strdel(char **as)
 {
-	ft_memdel((void**)as);
+	if (as)
+		ft_memdel((void**)as);
 }

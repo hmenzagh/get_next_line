@@ -6,7 +6,7 @@
 /*   By: hmenzagh <hmenzagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:45:14 by hmenzagh          #+#    #+#             */
-/*   Updated: 2016/11/06 13:47:16 by hmenzagh         ###   ########.fr       */
+/*   Updated: 2016/11/07 13:06:35 by hmenzagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,17 @@ char				*ft_strsub(char const *s, unsigned int start, size_t len)
 	unsigned int	i;
 
 	i = 0;
-	if (!(chaine = malloc((len + 1) * sizeof(char))))
-		return (NULL);
-	while (i < len)
+	chaine = NULL;
+	if (s)
 	{
-		chaine[i] = s[i + start];
-		++i;
+		if (!(chaine = malloc((len + 1) * sizeof(char))))
+			return (NULL);
+		while (i < len)
+		{
+			chaine[i] = s[i + start];
+			++i;
+		}
+		chaine[i] = '\0';
 	}
-	chaine[i] = '\0';
 	return (chaine);
 }

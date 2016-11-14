@@ -6,7 +6,7 @@
 /*   By: hmenzagh <hmenzagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:43:45 by hmenzagh          #+#    #+#             */
-/*   Updated: 2016/11/06 14:15:46 by hmenzagh         ###   ########.fr       */
+/*   Updated: 2016/11/07 12:55:57 by hmenzagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,17 @@ char		*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	char	*ns;
 	int		i;
 
-	i = 0;
-	if (!(ns = ft_strnew(ft_strlen(s))))
-		return (NULL);
-	while (s[i])
+	ns = NULL;
+	if (s && (*f))
 	{
-		ns[i] = (*f)(i, s[i]);
-		++i;
+		i = 0;
+		if (!(ns = ft_strnew(ft_strlen(s))))
+			return (NULL);
+		while (s[i])
+		{
+			ns[i] = (*f)(i, s[i]);
+			++i;
+		}
 	}
 	return (ns);
 }

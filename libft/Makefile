@@ -75,7 +75,7 @@ SRCS_LIB	=		$(DIR_SRC)ft_bzero.c					\
 
 OBJS_LIB	=		$(SRCS_LIB:.c=.o)
 
-CFLAGS		+=		-I./includes/
+CFLAGS		+=		-I./
 CFLAGS		+=		-Wall -Wextra -Werror
 
 RM			=		rm -f
